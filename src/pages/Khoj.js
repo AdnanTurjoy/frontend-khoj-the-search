@@ -53,7 +53,7 @@ function Khoj(props) {
 
   return (
     <>
-      <div></div>
+      <h1>Wellcome,{loggedInUser.name}</h1>
       <form
         className="flex mx-auto container max-w-sm  m-20 bg-grey-lighter min-h-screen flex-col"
         onSubmit={handleSubmit}

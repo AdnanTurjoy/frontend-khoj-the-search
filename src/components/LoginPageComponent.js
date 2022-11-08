@@ -30,9 +30,8 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
             success: res.success,
             error: "",
           });
-
-          if (res.success === "user logged in")
-            navigate("/khoj", { replace: true });
+          localStorage.setItem("userInfo", JSON.stringify(res.userLoggedIn));
+          if (res.success === "user logged in") navigate("/khoj");
         })
         .catch((er) => {
           setLoginUserResponse({
