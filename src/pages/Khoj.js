@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../App";
 
 const URL = "http://localhost:8005/Khoj_the_search_Page";
 function Khoj(props) {
+  const [loggedInUser, setloggedInUser] = useContext(AuthContext);
+  console.log("from khoj: ", loggedInUser);
   const [values, setValues] = useState("");
   const [searchValue, setSearchValue] = useState(0);
   const [error, setError] = useState("");
@@ -24,7 +27,7 @@ function Khoj(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const input_values = values;
-    const user = "636940d2657c09a90ef2cab5";
+    const user = loggedInUser._id;
     const newKhoj = {
       input_values,
       user,
