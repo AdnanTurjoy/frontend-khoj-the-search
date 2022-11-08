@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../App";
 
-const URL = "http://localhost:8005/Khoj_the_search_Page";
+const URL = process.env.REACT_APP_API_LINK + "/Khoj_the_search_Page";
+
 function Khoj(props) {
   const [loggedInUser, setloggedInUser] = useContext(AuthContext);
   const [values, setValues] = useState("");

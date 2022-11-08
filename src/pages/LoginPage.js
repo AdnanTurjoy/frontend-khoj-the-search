@@ -1,7 +1,7 @@
 import axios from "axios";
 import LoginPageComponent from "../components/LoginPageComponent";
 const loginUserApiRequest = async (email, password) => {
-  const { data } = await axios.post("http://localhost:8005/login", {
+  const { data } = await axios.post(process.env.REACT_APP_API_LINK + "/login", {
     email,
     password,
   });
