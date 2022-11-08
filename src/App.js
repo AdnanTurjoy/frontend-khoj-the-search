@@ -6,16 +6,18 @@ import Register from "./pages/Register";
 
 import LoginPage from "./pages/LoginPage";
 import { createContext, useState } from "react";
+import RegisterPage from "./pages/RegisterPage";
 export const AuthContext = createContext();
 function App() {
   const [loggedInUser, setloggedInUser] = useState({});
+
   return (
     <div className="App">
       <AuthContext.Provider value={[loggedInUser, setloggedInUser]}>
         <BrowserRouter>
           <Routes>
             <Route path="/khoj" element={<Khoj />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
           </Routes>
         </BrowserRouter>

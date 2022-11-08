@@ -2,10 +2,10 @@ import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
-let check = {};
+
 const LoginPageComponent = ({ loginUserApiRequest }) => {
   const [loggedInUser, setloggedInUser] = useContext(AuthContext);
-  const [janiNa, setJaniNa] = useState("");
+
   const [validated, setValidated] = useState(false);
 
   const [loginUserResponse, setLoginUserResponse] = useState({
