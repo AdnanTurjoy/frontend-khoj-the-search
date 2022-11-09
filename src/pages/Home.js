@@ -21,6 +21,7 @@ function Home(props) {
           <Link to={"/register"}>
             <button className="w-full text-center py-3 rounded  bg-blue-600 text-white hover:bg-green-dark focus:outline-none my-1">
               Register
+              
             </button>
           </Link>
         </div>
