@@ -1,9 +1,12 @@
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 
 const RegisterPageComponent = ({ registerUserApiRequest }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [lastName, setLastname] = useState("");
   const [loggedInUser, setloggedInUser] = useContext(AuthContext);
   const navigate = useNavigate();
   const [registerUserResponseState, setRegisterUserResponseState] = useState({
@@ -12,33 +15,11 @@ const RegisterPageComponent = ({ registerUserApiRequest }) => {
     loading: false,
   });
 
-  const [validated, setValidated] = useState(false);
-
-  const onChange = () => {
-    const password = document.querySelector("input[name=password]");
-    const confirm = document.querySelector("input[name=confirmPassword]");
-    if (confirm.value === password.value) {
-      confirm.setCustomValidity("");
-    } else {
-      confirm.setCustomValidity("Passwords do not match");
-    }
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const form = event.currentTarget.elements;
-    const email = form.email.value;
-    const name = form.name.value;
-    const lastName = form.lastName.value;
-    const password = form.password.value;
-    if (
-      event.currentTarget.checkValidity() === true &&
-      email &&
-      password &&
-      name &&
-      lastName
-    ) {
+
+    if (email && password && name && lastName) {
       registerUserApiRequest(name, lastName, email, password)
         .then((res) => {
           setRegisterUserResponseState({
@@ -47,126 +28,98 @@ const RegisterPageComponent = ({ registerUserApiRequest }) => {
           });
           setloggedInUser(res.userCreated);
           if (res.success === "User created") {
-            navigate("/khoj", { replace: true });
+            navigate("/login", { replace: true });
           }
 
           sessionStorage.setItem("userInfo", JSON.stringify(res.userCreated));
         })
         .catch((er) =>
-          console.log({
+          setRegisterUserResponseState({
             error: er.response.data.message
               ? er.response.data.message
               : er.response.data,
           })
         );
     }
-
-    setValidated(true);
   };
   return (
-    <Container>
-      <Row className="mt-5 justify-content-md-center">
-        <Col md={6}>
-          <h1>Register</h1>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="validationCustom01">
-              <Form.Label>Your name</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Enter your name"
-                name="name"
-              />
-              <Form.Control.Feedback type="invalid">
-                Please enter a name
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicLastName">
-              <Form.Label>Your last name</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Enter your last name"
-                name="lastName"
-              />
-              <Form.Control.Feedback type="invalid">
-                Please enter your last name
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                name="email"
-                required
-                type="email"
-                placeholder="Enter email"
-              />
-              <Form.Control.Feedback type="invalid">
-                Please anter a valid email address
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                name="password"
-                required
-                type="password"
-                placeholder="Password"
-                minLength={6}
-                onChange={onChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Please anter a valid password
-              </Form.Control.Feedback>
-              <Form.Text className="text-muted">
-                Password should have at least 6 characters
-              </Form.Text>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPasswordRepeat">
-              <Form.Label>Repeat Password</Form.Label>
-              <Form.Control
-                name="confirmPassword"
-                required
-                type="password"
-                placeholder="Repeat Password"
-                minLength={6}
-                onChange={onChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                Both passwords should match
-              </Form.Control.Feedback>
-            </Form.Group>
+    <div className="bg-grey-lighter min-h-screen flex flex-col">
+      <form
+        action=""
+        className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2"
+        onSubmit={handleSubmit}
+      >
+        <div className="bg-white px-6 py-8 rounded shadow-md text-black w-">
+          <h1 className="mb-8 text-3xl text-center">Register</h1>
+          {registerUserResponseState &&
+            registerUserResponseState.error === "user exists" && (
+              <div role="alert">
+                <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2 mb-3">
+                  User with that email already exists!
+                </div>
+              </div>
+            )}
+          {registerUserResponseState &&
+            registerUserResponseState.success === "User created" && (
+              <div role="alert">
+                <div className=" bg-green-500 text-white font-bold rounded-t px-4 py-2 mb-3">
+                  User Created
+                </div>
+              </div>
+            )}
+          <input
+            type="text"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="name"
+            placeholder="Name"
+            required
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="text"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="lastName"
+            placeholder="Last Name"
+            required
+            onChange={(e) => setLastname(e.target.value)}
+          />
+          <input
+            type="text"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="email"
+            placeholder="Email"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-            <Row className="pb-2">
-              <Col>
-                Do you have an account already?
-                <Link to={"/login"}> Login </Link>
-              </Col>
-            </Row>
+          <input
+            type="password"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="password"
+            placeholder="Password"
+            required
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-            <Button type="submit">Submit</Button>
-            <Alert
-              show={
-                registerUserResponseState &&
-                registerUserResponseState.error === "user exists"
-              }
-              variant="danger"
-            >
-              User with that email already exists!
-            </Alert>
-            <Alert
-              show={
-                registerUserResponseState &&
-                registerUserResponseState.success === "User created"
-              }
-              variant="info"
-            >
-              User created
-            </Alert>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+          <button
+            type="submit"
+            className="w-full text-center py-3 rounded  bg-green-500 text-white hover:bg-green-dark focus:outline-none my-1"
+          >
+            Register
+          </button>
+        </div>
+
+        <div className="text-grey-dark mt-6">
+          already have an account?
+          <Link
+            className="no-underline border-b border-blue text-blue"
+            to="/login"
+          >
+            login
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 };
 

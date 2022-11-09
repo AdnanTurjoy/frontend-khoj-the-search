@@ -2,12 +2,12 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Khoj from "./pages/Khoj";
-import Register from "./pages/Register";
 
 import LoginPage from "./pages/LoginPage";
 import { createContext, useState } from "react";
 import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./route/ProtectedRoute";
+import Home from "./pages/Home";
 export const AuthContext = createContext();
 function App() {
   const [loggedInUser, setloggedInUser] = useState({});
@@ -20,7 +20,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route element={<Khoj />} path="/khoj" exact />
             </Route>
-
+            <Route path="/" element={<Home />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
           </Routes>

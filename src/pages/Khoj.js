@@ -34,15 +34,15 @@ function Khoj(props) {
       user,
     };
     //console.log(newKhoj);
-    addkhoj(newKhoj);
-    const valuesKhoj = input_values.split(/[ , ]/);
+    addkhoj(newKhoj);         //  POST request
+    const valuesKhoj = input_values.split(/[ , ]/); // spilting string ","
     let found = false;
     for (let index = 0; index < valuesKhoj.length; index++) {
-      const element = Number(valuesKhoj[index]);
+      const element = Number(valuesKhoj[index]); //  convert into number
       const targetValue = Number(searchValue);
       console.log(element, targetValue);
       if (element === targetValue) {
-        found = true;
+        found = true; // check if it found or not
       }
     }
     if (found) {
@@ -54,9 +54,9 @@ function Khoj(props) {
 
   return (
     <>
-      <h1>Wellcome,{loggedInUser.name}</h1>
+      <h1>Wellcome, {" " + loggedInUser.name}</h1>
       <form
-        className="flex mx-auto container max-w-sm  m-20 bg-grey-lighter min-h-screen flex-col"
+        className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2"
         onSubmit={handleSubmit}
       >
         <div className="mb-6">
