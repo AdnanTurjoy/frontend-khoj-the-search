@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
-
+import Spinner from "react-bootstrap/Spinner";
 const LoginPageComponent = ({ loginUserApiRequest }) => {
   const [loggedInUser, setloggedInUser] = useContext(AuthContext);
 
@@ -12,6 +12,7 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
   const [loginUserResponse, setLoginUserResponse] = useState({
     success: "",
     error: "",
+    loading: false,
   });
   const navigate = useNavigate();
   const handleSubmit = (event) => {
@@ -19,6 +20,7 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
     event.stopPropagation();
 
     if (email && password) {
+      setLoginUserResponse({ loading: true });
       loginUserApiRequest(email, password)
         .then((res) => {
           setloggedInUser(res.userLoggedIn);
@@ -27,7 +29,7 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
             error: "",
           });
           localStorage.setItem("userInfo", JSON.stringify(res.userLoggedIn));
-          if (res.success === "user logged in") navigate("/khoj");            // navigate to main home page
+          if (res.success === "user logged in") navigate("/khoj"); // navigate to main home page
         })
         .catch((er) => {
           setLoginUserResponse({
@@ -74,11 +76,22 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
             required
             onChange={(e) => setPassword(e.target.value)}
           />
-
           <button
+            variant="primary"
             type="submit"
             className="w-full text-center py-3 rounded  bg-green-500 text-white hover:bg-green-dark focus:outline-none my-1"
           >
+            {loginUserResponse && loginUserResponse.loading === true ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            ) : (
+              ""
+            )}
             Login
           </button>
         </div>

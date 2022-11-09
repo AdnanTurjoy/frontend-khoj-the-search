@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
-
+import Spinner from "react-bootstrap/Spinner";
 const RegisterPageComponent = ({ registerUserApiRequest }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +20,7 @@ const RegisterPageComponent = ({ registerUserApiRequest }) => {
     event.stopPropagation();
 
     if (email && password && name && lastName) {
+      setRegisterUserResponseState({ loading: true });
       registerUserApiRequest(name, lastName, email, password)
         .then((res) => {
           setRegisterUserResponseState({
@@ -105,7 +106,19 @@ const RegisterPageComponent = ({ registerUserApiRequest }) => {
             type="submit"
             className="w-full text-center py-3 rounded  bg-green-500 text-white hover:bg-green-dark focus:outline-none my-1"
           >
-            Register
+            {registerUserResponseState &&
+            registerUserResponseState.loading === true ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            ) : (
+              ""
+            )}
+            Submit
           </button>
         </div>
 
