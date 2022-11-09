@@ -21,10 +21,16 @@ function Home(props) {
           <Link to={"/register"}>
             <button className="w-full text-center py-3 rounded  bg-blue-600 text-white hover:bg-green-dark focus:outline-none my-1">
               Register
-
-              
             </button>
           </Link>
+          <a
+            href="https://khoj-the-search-adnan.herokuapp.com/api_end_point"
+            target="_blank"
+          >
+            <button className="w-full text-center py-3 rounded bg-rose-500 text-white hover:bg-green-dark focus:outline-none my-1">
+              API
+            </button>
+          </a>
         </div>
       </div>
     </div>
