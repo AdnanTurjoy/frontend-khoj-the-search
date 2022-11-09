@@ -34,11 +34,12 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
           if (res.success === "user logged in") navigate("/khoj");
         })
         .catch((er) => {
-          setLoginUserResponse({
-            error: er.response.data.message
-              ? er.response.data.message
-              : er.response.data,
-          });
+          console.log(er.response.data);
+          // setLoginUserResponse({
+          //   error: er.response.data.message
+          //     ? er.response.data.message
+          //     : er.response.data,
+          // });
         });
     }
 
